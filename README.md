@@ -42,4 +42,6 @@ $ julia
 Inspiration drawn from 
 [OpenAI.jl](https://github.com/rory-linehan/OpenAI.jl), 
 [ReplMaker.jl](https://github.com/MasonProtter/ReplMaker.jl), 
-and [APL.jl](https://github.com/shashi/APL.jl)
+[APL.jl](https://github.com/shashi/APL.jl),
+and Xe Iaso's ChatGPT emacs integration in 
+["We're never getting rid of ChatGPT"](https://xeiaso.net/blog/chatgpt-emacs).
