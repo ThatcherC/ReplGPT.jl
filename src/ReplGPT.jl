@@ -2,6 +2,7 @@ module ReplGPT
 
 import OpenAI
 import ReplMaker
+import Markdown
 
 function call_chatgpt(s)
   r = OpenAI.create_chat(
@@ -14,7 +15,9 @@ function call_chatgpt(s)
   #if !=(r.status, 200)
   #  @test false
   #end  
-  r.response["choices"][begin]["message"]["content"]
+  response = r.response["choices"][begin]["message"]["content"]
+  # TODO: check if response is valid markdown. if not, return as string
+  Markdown.parse(response)
 end
 
 function init()
@@ -22,7 +25,7 @@ function init()
                 prompt_text="ChatGPT> ",
                 prompt_color = :blue, 
                 start_key='}', 
-                mode_name="ChatGPT_mode")
+                mode_name="ChatGPT_mode");
 end
 
 end # module
