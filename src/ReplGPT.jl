@@ -20,12 +20,15 @@ function call_chatgpt(s)
   Markdown.parse(response)
 end
 
-function init()
+function init_repl()
   ReplMaker.initrepl(call_chatgpt, 
                 prompt_text="ChatGPT> ",
                 prompt_color = :blue, 
                 start_key='}', 
                 mode_name="ChatGPT_mode");
 end
+
+__init__() = isdefined(Base, :active_repl) ? init_repl() : nothing
+
 
 end # module
