@@ -19,14 +19,15 @@ Returns an OpenAI API key to use from either the `LocalPreferences.toml` file or
 """
 function getAPIkey()
     key = missing
-    if haskey(ENV, apiKeyName)
+
+    # try to load key from Preferences:
+    @static if VERSION >= v"1.6"
+        key = @load_preference(apiPrefName, missing)
+    end
+
+    # if not koaded from preferences, look in environment variables
+    if ismissing(key) && haskey(ENV, apiKeyName)
         key = ENV[apiKeyName]
-    else
-
-        @static if VERSION >= v"1.6"
-            key = @load_preference(apiPrefName, missing)
-        end
-
     end
 
     return key
