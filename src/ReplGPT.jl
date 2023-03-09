@@ -3,14 +3,24 @@ module ReplGPT
 import OpenAI
 import ReplMaker
 import Markdown
+import Preferences
 
 const apiKeyName = "OPENAI_API_KEY"
 
-function call_chatgpt(s)
-
+function getAPIkey()
+    key = missing
     if haskey(ENV, apiKeyName)
+        key = ENV[apiKeyName]
+    end
+
+    return key
+end
+
+function call_chatgpt(s)
+    key = getAPIkey()
+    if !ismissing(key)
         r = OpenAI.create_chat(
-            ENV[apiKeyName],
+            key,
             "gpt-3.5-turbo",
             [Dict("role" => "user", "content" => s)],
         )
@@ -31,7 +41,7 @@ end
 
 function init_repl()
 
-    if !haskey(ENV, apiKeyName)
+    if ismissing(getAPIkey())
         @warn "$apiKeyName not found in ENV! Please set the environment variable $(apiKeyName)=<YOUR OPENAI API KEY>"
     end
 
