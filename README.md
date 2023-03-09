@@ -27,17 +27,33 @@ ChatGPT> How do you exponentiate a matrix in Julia?
 ChatGPT> 
 ```
 
-**NOTE:** You will need to acquire an OpenAI API key from [openai.com](openai.com) and store it in the 
-`OPENAI_API_KEY` environment variable:
+**NOTE:** You will need to acquire an OpenAI API key from [openai.com](openai.com) and pass it to Julia. ReplGPT.jl
+will look for an API key in the `OPENAI_API_KEY` environment variable and also in the module's settings.
+
+The **recommended approach** is to save the API key in the 
+module's settings by running:
+
+```julia
+julia> using ReplGPT
+
+julia> ReplGPT.setAPIkey("<YOUR KEY HERE>")
+```
+
+**Note:** with this approach your API key will be stored in plaintext in a 
+`LocalPreferences.toml` folder in your environment directory. For example, on a Linux computer running Julia 1.8, the key is
+stored in 
+`~/.julia/environments/v1.8/LocalPreferences.toml`.
+
+If there is interest, we can look for a non-plaintext way to store these keys.
+
+To specify your key using environment variables, invoke Julia
+as shown below:
 
 ```sh
 $ OPENAI_API_KEY=<key goes here> julia
-
-$ # or
-
-$ export OPENAI_API_KEY=<key goes here>
-$ julia
 ```
+
+
 
 Inspiration drawn from 
 [OpenAI.jl](https://github.com/rory-linehan/OpenAI.jl), 
