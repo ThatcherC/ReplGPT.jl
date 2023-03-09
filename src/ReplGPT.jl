@@ -6,13 +6,19 @@ import Markdown
 
 const apiKeyName = "OPENAI_API_KEY"
 
+conversation = Vector{Dict{String, String}}()
+
 function call_chatgpt(s)
 
     if haskey(ENV, apiKeyName)
+
+        userMessage = Dict("role" => "user", "content" => s)
+        append!(conversation, userMessage)
+
         r = OpenAI.create_chat(
             ENV[apiKeyName],
             "gpt-3.5-turbo",
-            [Dict("role" => "user", "content" => s)],
+            conversation,
         )
 
         # TODO: check for errors!
@@ -20,6 +26,11 @@ function call_chatgpt(s)
         #  @test false
         #end  
         response = r.response["choices"][begin]["message"]["content"]
+
+        # append ChatGPT's response to the conversation history
+        # TODO: the object built here might just be the same as r.response["choices"][begin]["message"]
+        responseMessage = Dict("role" => "assistant", "content" => s)
+        append!(conversation, responseMessage)
 
         Markdown.parse(response)
     else
