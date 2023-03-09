@@ -3,17 +3,31 @@ module ReplGPT
 import OpenAI
 import ReplMaker
 import Markdown
-import Preferences
+
+@static if VERSION >= v"1.6"
+    using Preferences
+end
 
 const apiKeyName = "OPENAI_API_KEY"
+const apiPrefName = "openai_api_key"
 
 function getAPIkey()
     key = missing
     if haskey(ENV, apiKeyName)
         key = ENV[apiKeyName]
+    else
+
+        @static if VERSION >= v"1.6"
+            key = @load_preference(apiPrefName, missing)
+        end
+
     end
 
     return key
+end
+
+function setAPIkey(key::String)
+    @set_preferences!(apiPrefName => key)
 end
 
 function call_chatgpt(s)
