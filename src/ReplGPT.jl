@@ -30,6 +30,10 @@ function setAPIkey(key::String)
     @set_preferences!(apiPrefName => key)
 end
 
+function clearAPIkey()
+    @delete_preferences!(apiPrefName)
+end
+
 function call_chatgpt(s)
     key = getAPIkey()
     if !ismissing(key)

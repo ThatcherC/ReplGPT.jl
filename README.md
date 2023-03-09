@@ -40,6 +40,8 @@ julia> using ReplGPT
 julia> ReplGPT.setAPIkey("<YOUR KEY HERE>")
 ```
 
+The API key can later be cleared with `ReplGPT.clearAPIkey()`.
+
 **Note:** with this approach your API key will be stored in plaintext in a 
 `LocalPreferences.toml` folder in your environment directory. For example, on a Linux computer running Julia 1.8, the key is
 stored in 
@@ -54,7 +56,7 @@ as shown below:
 $ OPENAI_API_KEY=<key goes here> julia
 ```
 
-
+Note that when the environment variable is used, the key is **not** saved to the `LocalPreferences.toml` file.
 
 Inspiration drawn from 
 [OpenAI.jl](https://github.com/rory-linehan/OpenAI.jl), 
