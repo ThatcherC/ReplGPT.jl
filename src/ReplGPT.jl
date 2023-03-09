@@ -13,7 +13,7 @@ function call_chatgpt(s)
     if haskey(ENV, apiKeyName)
 
         userMessage = Dict("role" => "user", "content" => s)
-        append!(conversation, userMessage)
+        push!(conversation, userMessage)
 
         r = OpenAI.create_chat(
             ENV[apiKeyName],
@@ -29,8 +29,8 @@ function call_chatgpt(s)
 
         # append ChatGPT's response to the conversation history
         # TODO: the object built here might just be the same as r.response["choices"][begin]["message"]
-        responseMessage = Dict("role" => "assistant", "content" => s)
-        append!(conversation, responseMessage)
+        responseMessage = Dict("role" => "assistant", "content" => response)
+        push!(conversation, responseMessage)
 
         Markdown.parse(response)
     else
