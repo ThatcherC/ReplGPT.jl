@@ -11,6 +11,12 @@ end
 const apiKeyName = "OPENAI_API_KEY"
 const apiPrefName = "openai_api_key"
 
+"""
+    function getAPIkey()
+
+Returns an OpenAI API key to use from either the `LocalPreferences.toml` file or the
+`OPENAI_API_KEY` environment variable. If neither is present, returns `missing`.
+"""
 function getAPIkey()
     key = missing
     if haskey(ENV, apiKeyName)
@@ -26,10 +32,24 @@ function getAPIkey()
     return key
 end
 
+"""
+    function setAPIkey(key::String)
+
+Sets the OpenAI API key for ReplGPT to use. The key will be saved as plaintext to your environment's
+`LocalPreferences.toml` file (perhaps somewhere like `~/.julia/environments/v1.8/LocalPreferences.toml`).
+The key can be deleted with `ReplGPT.clearAPIkeyI()`. 
+"""
 function setAPIkey(key::String)
     @set_preferences!(apiPrefName => key)
 end
 
+"""
+    function clearAPIkey()
+
+Deletes the OpenAI API key saved in `LocalPreferences.toml` if present. 
+
+See also: ReplGPT.setAPIkey(key::String)
+"""
 function clearAPIkey()
     @delete_preferences!(apiPrefName)
 end
@@ -60,7 +80,7 @@ end
 function init_repl()
 
     if ismissing(getAPIkey())
-        @warn "$apiKeyName not found in ENV! Please set the environment variable $(apiKeyName)=<YOUR OPENAI API KEY>"
+        @warn "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(<YOUR OPENAI API KEY>)` or set the environment variable $(apiKeyName)=<YOUR OPENAI API KEY>"
     end
 
     ReplMaker.initrepl(
