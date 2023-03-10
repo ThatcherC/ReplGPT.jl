@@ -4,9 +4,7 @@ import OpenAI
 import ReplMaker
 import Markdown
 
-@static if VERSION >= v"1.6"
-    using Preferences
-end
+using Preferences
 
 const apiKeyName = "OPENAI_API_KEY"
 const apiPrefName = "openai_api_key"
@@ -21,9 +19,7 @@ function getAPIkey()
     key = missing
 
     # try to load key from Preferences:
-    @static if VERSION >= v"1.6"
-        key = @load_preference(apiPrefName, missing)
-    end
+    key = @load_preference(apiPrefName, missing)
 
     # if not koaded from preferences, look in environment variables
     if ismissing(key) && haskey(ENV, apiKeyName)
