@@ -6,8 +6,8 @@ import Markdown
 
 using Preferences
 
-const apiKeyName = "OPENAI_API_KEY"
-const apiPrefName = "openai_api_key"
+const api_key_name = "OPENAI_API_KEY"
+const api_pref_name = "openai_api_key"
 
 """
     function getAPIkey()
@@ -19,11 +19,11 @@ function getAPIkey()
     key = missing
 
     # try to load key from Preferences:
-    key = @load_preference(apiPrefName, missing)
+    key = @load_preference(api_pref_name, missing)
 
     # if not koaded from preferences, look in environment variables
-    if ismissing(key) && haskey(ENV, apiKeyName)
-        key = ENV[apiKeyName]
+    if ismissing(key) && haskey(ENV, api_key_name)
+        key = ENV[api_key_name]
     end
 
     return key
@@ -37,7 +37,7 @@ Sets the OpenAI API key for ReplGPT to use. The key will be saved as plaintext t
 The key can be deleted with `ReplGPT.clearAPIkeyI()`. 
 """
 function setAPIkey(key::String)
-    @set_preferences!(apiPrefName => key)
+    @set_preferences!(api_pref_name => key)
 end
 
 """
@@ -48,7 +48,7 @@ Deletes the OpenAI API key saved in `LocalPreferences.toml` if present.
 See also: ReplGPT.setAPIkey(key::String)
 """
 function clearAPIkey()
-    @delete_preferences!(apiPrefName)
+    @delete_preferences!(api_pref_name)
 end
 
 function call_chatgpt(s)
@@ -69,7 +69,7 @@ function call_chatgpt(s)
         Markdown.parse(response)
     else
         Markdown.parse(
-            "No API key found in ENV! Please set the OpenAI API key environment variable with $(apiKeyName)=<YOUR OPENAI API KEY>",
+            "No API key found in ENV! Please set the OpenAI API key environment variable with $(api_key_name)=<YOUR OPENAI API KEY>",
         )
     end
 end
@@ -77,7 +77,7 @@ end
 function init_repl()
 
     if ismissing(getAPIkey())
-        @warn "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(<YOUR OPENAI API KEY>)` or set the environment variable $(apiKeyName)=<YOUR OPENAI API KEY>"
+        @warn "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(<YOUR OPENAI API KEY>)` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
     end
 
     ReplMaker.initrepl(
