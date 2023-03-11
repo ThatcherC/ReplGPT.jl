@@ -51,13 +51,18 @@ function clearAPIkey()
     @delete_preferences!(api_pref_name)
 end
 
+conversation = Vector{Dict{String, String}}()
+
 function call_chatgpt(s)
     key = getAPIkey()
     if !ismissing(key)
+        userMessage = Dict("role" => "user", "content" => s)
+        push!(conversation, userMessage)
+
         r = OpenAI.create_chat(
             key,
             "gpt-3.5-turbo",
-            [Dict("role" => "user", "content" => s)],
+            conversation,
         )
 
         # TODO: check for errors!
@@ -66,10 +71,15 @@ function call_chatgpt(s)
         #end  
         response = r.response["choices"][begin]["message"]["content"]
 
+        # append ChatGPT's response to the conversation history
+        # TODO: the object built here might just be the same as r.response["choices"][begin]["message"]
+        responseMessage = Dict("role" => "assistant", "content" => response)
+        push!(conversation, responseMessage)
+
         Markdown.parse(response)
     else
         Markdown.parse(
-            "No API key found in ENV! Please set the OpenAI API key environment variable with $(api_key_name)=<YOUR OPENAI API KEY>",
+            "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
         )
     end
 end
@@ -77,7 +87,7 @@ end
 function init_repl()
 
     if ismissing(getAPIkey())
-        @warn "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(<YOUR OPENAI API KEY>)` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
+        @warn "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
     end
 
     ReplMaker.initrepl(
