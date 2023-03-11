@@ -79,7 +79,7 @@ function call_chatgpt(s)
         Markdown.parse(response)
     else
         Markdown.parse(
-            "No API key found in ENV! Please set the OpenAI API key environment variable with $(api_key_name)=<YOUR OPENAI API KEY>",
+            "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
         )
     end
 end
@@ -87,7 +87,7 @@ end
 function init_repl()
 
     if ismissing(getAPIkey())
-        @warn "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(<YOUR OPENAI API KEY>)` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
+        @warn "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
     end
 
     ReplMaker.initrepl(
