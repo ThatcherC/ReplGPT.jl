@@ -84,6 +84,18 @@ function call_chatgpt(s)
     end
 end
 
+"""
+    function should_init_repl()
+
+Check whether we should call `init_repl`. This function should return `true` when 
+called from a `using ReplGPT` call in the REPL or via `startup.jl`. It should return
+false when used in a script. 
+"""
+function should_init_repl()
+    oldcheck = isdefined(Base, :active_repl)
+    oldcheck
+end
+
 function init_repl()
 
     if ismissing(getAPIkey())
@@ -99,7 +111,7 @@ function init_repl()
     )
 end
 
-__init__() = isdefined(Base, :active_repl) ? init_repl() : nothing
+__init__() = should_init_repl() ? init_repl() : nothing
 
 
 end # module
