@@ -51,7 +51,7 @@ function clearAPIkey()
     @delete_preferences!(api_pref_name)
 end
 
-conversation = Vector{Dict{String, String}}()
+conversation = Vector{Dict{String,String}}()
 
 function call_chatgpt(s)
     key = getAPIkey()
@@ -59,11 +59,7 @@ function call_chatgpt(s)
         userMessage = Dict("role" => "user", "content" => s)
         push!(conversation, userMessage)
 
-        r = OpenAI.create_chat(
-            key,
-            "gpt-3.5-turbo",
-            conversation,
-        )
+        r = OpenAI.create_chat(key, "gpt-3.5-turbo", conversation)
 
         # TODO: check for errors!
         #if !=(r.status, 200)
@@ -79,7 +75,7 @@ function call_chatgpt(s)
         Markdown.parse(response)
     else
         Markdown.parse(
-            "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>"
+            "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>",
         )
     end
 end
