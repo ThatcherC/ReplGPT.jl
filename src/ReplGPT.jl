@@ -110,7 +110,25 @@ function init_repl()
     )
 end
 
-__init__() = should_init_repl() ? init_repl() : nothing
+function __init__()
+    if should_init_repl()
+        # if there exists an active REPL (ie, we're in the Julia shell and called `using ReplGPT`)
+        if isdefined(Base, :active_repl)
+            init_repl()
+        else # if there's no REPL yet, we might be in startup.jl
+            # adapted from https://github.com/MasonProtter/ReplMaker.jl/blob/7b4efadceb0ec268d7c6351add83094ca37776e2/README.md?plain=1#L245-L260
+            atreplinit() do repl
+                try
+                    init_repl()
+                catch
+                end
+            end
+        end
+
+    else
+        nothing
+    end
+end
 
 
 end # module
