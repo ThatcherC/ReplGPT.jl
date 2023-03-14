@@ -3,7 +3,7 @@
 Talk to ChatGPT from the Julia REPL!
 
 It's as simple as `using ReplGPT` and entering the shell with `}`:
-```
+```julia
 julia> using ReplGPT
 REPL mode ChatGPT_mode initialized. Press } to enter and backspace to exit.
 
