@@ -2,7 +2,11 @@ module ReplGPT
 
 import OpenAI
 import ReplMaker
-import Markdown
+import Markdown 
+import Term.TermMarkdown: parse_md
+import Term: tprint
+import Term: Panel, hLine
+import Term.Consoles: console_width
 
 using Preferences
 
@@ -55,6 +59,7 @@ conversation = Vector{Dict{String,String}}()
 
 function call_chatgpt(s)
     key = getAPIkey()
+    w = console_width() - 6
     if !ismissing(key)
         userMessage = Dict("role" => "user", "content" => s)
         push!(conversation, userMessage)
@@ -72,11 +77,15 @@ function call_chatgpt(s)
         responseMessage = Dict("role" => "assistant", "content" => response)
         push!(conversation, responseMessage)
 
-        Markdown.parse(response)
+        return "    " * Panel(parse_md(Markdown.parse(response); width=w-4); width=w, 
+                background="on_#20232a",
+                subtitle="ChatGPT", subtitle_style="white", padding=(4, 1, 1, 4), 
+                style = "white on_#20232a"
+        ) / hLine(; style="dim") |> tprint
     else
-        Markdown.parse(
+        parse_md(
             "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>",
-        )
+        ) |> tprint
     end
 end
 
