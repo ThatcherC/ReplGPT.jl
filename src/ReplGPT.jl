@@ -5,7 +5,7 @@ import ReplMaker
 import Markdown 
 import Term.TermMarkdown: parse_md
 import Term: tprint
-import Term: Panel, hLine
+import Term: Panel, hLine, RenderableText
 import Term.Consoles: console_width
 
 using Preferences
@@ -77,9 +77,12 @@ function call_chatgpt(s)
         responseMessage = Dict("role" => "assistant", "content" => response)
         push!(conversation, responseMessage)
 
-        return "    " * Panel(parse_md(Markdown.parse(response); width=w-4); width=w, 
+        return "    " * Panel(
+                RenderableText(parse_md(Markdown.parse(response); width=w-8); style="white on_#20232a", background="on_#20232a"); 
+                
+                width=w, 
                 background="on_#20232a",
-                subtitle="ChatGPT", subtitle_style="white", padding=(4, 1, 1, 4), 
+                subtitle="ChatGPT", subtitle_style="white", padding=(4, 4, 1, 1), 
                 style = "white on_#20232a"
         ) / hLine(; style="dim") |> tprint
     else
