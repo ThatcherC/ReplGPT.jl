@@ -9,7 +9,19 @@ using Preferences
 const api_key_name = "OPENAI_API_KEY"
 const api_pref_name = "openai_api_key"
 
-format::Function = Markdown.parse
+function markdown(s::String)
+    Markdown.parse(s)
+end
+
+function plaintext(s::String)
+    println(strip(s))
+end
+
+format::Function = markdown
+
+function setFormatter(f::Function)
+    global format = f
+end
 
 """
     function getAPIkey()
