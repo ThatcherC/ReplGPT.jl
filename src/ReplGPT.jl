@@ -9,6 +9,8 @@ using Preferences
 const api_key_name = "OPENAI_API_KEY"
 const api_pref_name = "openai_api_key"
 
+format = Markdown.parse
+
 """
     function getAPIkey()
 
@@ -72,9 +74,9 @@ function call_chatgpt(s)
         responseMessage = Dict("role" => "assistant", "content" => response)
         push!(conversation, responseMessage)
 
-        Markdown.parse(response)
+        format(response)
     else
-        Markdown.parse(
+        format(
             "OpenAI API key not found! Please set with `ReplGPT.setAPIkey(\"<YOUR OPENAI API KEY>\")` or set the environment variable $(api_key_name)=<YOUR OPENAI API KEY>",
         )
     end
