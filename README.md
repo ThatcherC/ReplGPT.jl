@@ -1,3 +1,6 @@
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://thatcherc.github.io/ReplGPT.jl/stable)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://thatcherc.github.io/ReplGPT.jl/dev)
+
 # ReplGPT.jl
 
 Talk to ChatGPT from the Julia REPL!
