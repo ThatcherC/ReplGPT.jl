@@ -20,7 +20,7 @@ function plaintext(s::String)
     println(strip(s))
 end
 
-format::Function = markdown
+format = markdown
 
 """
     function setFormatter(f::Function)
@@ -41,5 +41,5 @@ markdown (generic function with 1 method)
 ```
 """
 function setFormatter(f::Function)
-    global format = f;
+    global format = f
 end
