@@ -15,10 +15,10 @@ include("keys.jl")
 Returns a new empty conversation history.
 """
 function generate_empty_conversation()
-    Vector{Dict{String,String}}();
+    Vector{Dict{String,String}}()
 end
 
-conversation = generate_empty_conversation();
+conversation = generate_empty_conversation()
 
 """
     function ReplGPT.initialize_conversation()
@@ -27,7 +27,7 @@ Sets the ChatGPT conversation to an empty state. This effectively
 starts a new chat with ChatGPT with no recollection of past messages.
 """
 function initialize_conversation()
-    global conversation = generate_empty_conversation();
+    global conversation = generate_empty_conversation()
 end
 
 """
