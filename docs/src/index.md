@@ -22,7 +22,7 @@ ReplGPT.clearAPIkey()
 ```@docs
 ReplGPT.initialize_conversation()
 
-ReplGPT.save_conversation()
+ReplGPT.save_conversation(filepath)
 ```
 
 ## Output Formatting
