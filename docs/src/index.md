@@ -17,6 +17,14 @@ ReplGPT.setAPIkey(key::String)
 ReplGPT.clearAPIkey()
 ```
 
+## Conversation Management
+
+```@docs
+ReplGPT.initialize_conversation()
+
+ReplGPT.save_conversation()
+```
+
 ## Output Formatting
 
 ```@docs
