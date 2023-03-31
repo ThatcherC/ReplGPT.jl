@@ -121,7 +121,7 @@ function call_chatgpt(s)
         r = OpenAI.create_chat(key, "gpt-3.5-turbo", conversation)
 
         # TODO: check for errors!
-        while ==(r.status, 100)
+        while !=(r.status, 200)
             format("ChatGPT is busy! Do you want to try again? y/n")
             userreply = readline()
             if userreply == "y"
