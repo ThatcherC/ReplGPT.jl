@@ -8,6 +8,7 @@ using Preferences
 
 include("formatting.jl")
 include("keys.jl")
+include("models.jl")
 
 """
     function ReplGPT.generate_empty_conversation()
