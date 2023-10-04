@@ -17,6 +17,16 @@ ReplGPT.setAPIkey(key::String)
 ReplGPT.clearAPIkey()
 ```
 
+## Model Selection
+
+```@docs
+ReplGPT.setmodelname(model::String)
+
+ReplGPT.getmodelname()
+
+ReplGPT.clearmodelname()
+```
+
 ## Conversation Management
 
 ```@docs

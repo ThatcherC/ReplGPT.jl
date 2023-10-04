@@ -80,6 +80,16 @@ $ OPENAI_API_KEY=<key goes here> julia
 
 Note that when the environment variable is used, the key is **not** saved to the `LocalPreferences.toml` file.
 
+## Selecting a Model
+The OpenAI model name can be selected with the `ReplGPT.setmodelname(...)` function:
+```julia
+# Select gpt-3.5-turbo (default):
+ReplGPT.setmodelname("gpt-3.5-turbo")
+
+# Select gpt-4
+ReplGPT.setmodelname("gpt-4")
+```
+
 ---
 
 Inspiration drawn from 
