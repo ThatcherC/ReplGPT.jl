@@ -8,6 +8,7 @@ using Preferences
 
 include("formatting.jl")
 include("keys.jl")
+include("models.jl")
 
 """
     function ReplGPT.generate_empty_conversation()
@@ -114,15 +115,24 @@ end
 
 function call_chatgpt(s)
     key = getAPIkey()
+    model = getmodelname()
     if !ismissing(key)
         userMessage = Dict("role" => "user", "content" => s)
         push!(conversation, userMessage)
 
-        r = OpenAI.create_chat(key, "gpt-3.5-turbo", conversation)
+        r = OpenAI.create_chat(key, model, conversation)
 
         # TODO: check for errors!
-        #if !=(r.status, 200)
-        #  @test false
+        while !=(r.status, 200)
+            format("ChatGPT is busy! Do you want to try again? y/n")
+            userreply = readline()
+            if userreply == "y"
+                r = OpenAI.create_chat(key, model, conversation)
+            else
+                format("ChatGPT is busy! Do you want to try again?")
+                break
+            end
+        end
         #end  
         response = r.response["choices"][begin]["message"]["content"]
 
